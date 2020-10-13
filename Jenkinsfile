@@ -47,6 +47,7 @@ pipeline {
 	  }
 	  stage("Docker push") {
 	       steps {
+		    sh "cat ~/passwords/dockerhub | docker login --username mstryczniewicz --password-stdin"
 		    sh "docker push mstryczniewicz/calculator"
 	       }
 	  }

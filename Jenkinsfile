@@ -3,6 +3,9 @@ pipeline {
      triggers {
           pollSCM('* * * * *')
      }
+     environment {
+          STAGING_SERVER = 192.168.57.6
+     }
      stages {
           stage("Compile") {
                steps {
@@ -53,19 +56,19 @@ pipeline {
 	  }
 	  stage("Deploy to staging") {
 	       steps {
-		    sh "docker -H 192.168.57.6 run -d --rm -p 8765:8080 --name calculator mstryczniewicz/calculator"
+		    sh "docker -H $STAGING_SERVER run -d --rm -p 8765:8080 --name calculator mstryczniewicz/calculator"
 	       }
 	  }
 	  stage("Acceptance test") {
 	       steps {
 		    sleep 60
-		    sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
+		    sh "chmod +x acceptance_test.sh && ./acceptance_test.sh $STAGING_SERVER"
 	       }
 	  }
      }
      post {
 	  always {
-		sh "docker stop calculator"
+		sh "docker -H $STAGING_SERVER stop calculator"
 	  }
      }
 }

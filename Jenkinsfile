@@ -50,7 +50,9 @@ pipeline {
 	  }
 	  stage("Docker push") {
 	       steps {
-		    sh "cat ~/passwords/dockerhub | docker login --username mstryczniewicz --password-stdin"
+		    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+		        docker login --username $USERNAME --password $PASSWORD
+		    }
 		    sh "docker push mstryczniewicz/calculator"
 	       }
 	  }

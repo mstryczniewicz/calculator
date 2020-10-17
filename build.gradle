@@ -20,10 +20,18 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation group: 'junit', name: 'junit', version: '4.8.2'
+	testImplementation("io.cucumber:cucumber-java:4.2.6")
+	testImplementation("io.cucumber:cucumber-junit:4.2.6")
+}
+
+task acceptanceTest(type: Test) {
+	include '**/acceptance/**'
+	systemProperties System.getProperties()
 }
 
 test {
 	useJUnitPlatform()
+	exclude '**/acceptance/**'
 }
 
 jacocoTestCoverageVerification {

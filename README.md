@@ -1,2 +1,2 @@
 # calculator_gradle
-sample commit to trigger an automatic build
+This is a sample calculator application that was created by following exercises in the book Continuous Delivery with Docker and Jenkins, by Rafal Leszko.
